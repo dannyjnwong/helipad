@@ -26,5 +26,11 @@ Sources:
   -http://stackoverflow.com/questions/23017053/how-to-convert-uk-grid-reference-to-latitude-and-longitude-in-r
   -https://stat.ethz.ch/pipermail/r-sig-geo/2010-November/010141.html
   -http://www.hannahfry.co.uk/blog/2012/02/01/converting-british-national-grid-to-latitude-and-longitude-ii
+  -http://cran.r-project.org/web/packages/rnrfa/rnrfa.pdf
 
+```{r}
+#Load the required packages
+require(rnrfa)
+
+```
 
