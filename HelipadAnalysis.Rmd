@@ -8,8 +8,8 @@ output: html_document
 We have some data from the KSS HEMS patients conveyed to KCH.
 
 ```{r}
-#Read the data into a dataframe
-data <- read.csv("data/HEMSdata.csv")
+#Read the data into a dataframe, specify the NA strings to incorporate the missing values
+data <- read.csv("data/HEMSdata.csv", na.strings=c("NA","n/a", ""))
 
 #Let's look at the table
 View(data)
@@ -31,6 +31,15 @@ Sources:
 ```{r}
 #Load the required packages
 require(rnrfa)
+require(dplyr)
 
+#Parse the OS Grid References into Eastings and Northings
+EN <- OSGParse(data$Grid)
+
+#Add these onto the data
+data <- mutate(data, Eastings = EN$Easting, Northings = EN$Northing)
+
+#Write to .csv
+write.csv(data, file="data/cleaned.csv")
 ```
 
