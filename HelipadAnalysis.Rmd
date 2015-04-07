@@ -33,11 +33,14 @@ Sources:
 require(rnrfa)
 require(dplyr)
 
-#Parse the OS Grid References into Eastings and Northings
-EN <- OSGParse(data$Grid)
+#Remove the rows with missing Grid references
+data <- filter(data, !is.na(Grid))
+  
+#Parse the OS Grid References into Eastings and Northings, then pipe it into WSG84 Coordinates
+coordinates <- OSGParse(data$Grid) %>% OSG2LatLon()
 
 #Add these onto the data
-data <- mutate(data, Eastings = EN$Easting, Northings = EN$Northing)
+data <- mutate(data, lat = coordinates$Latitude, lon = coordinates$Longitude)
 
 #Write to .csv
 write.csv(data, file="data/cleaned.csv")
