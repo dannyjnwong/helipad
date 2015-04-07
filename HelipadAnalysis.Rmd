@@ -23,10 +23,10 @@ Notice that the coordinates are in the Ordnance Survey Grid format under the col
 Fortunately there are others who have encountered the same problem before:
 
 Sources: 
-  -http://stackoverflow.com/questions/23017053/how-to-convert-uk-grid-reference-to-latitude-and-longitude-in-r
-  -https://stat.ethz.ch/pipermail/r-sig-geo/2010-November/010141.html
-  -http://www.hannahfry.co.uk/blog/2012/02/01/converting-british-national-grid-to-latitude-and-longitude-ii
-  -http://cran.r-project.org/web/packages/rnrfa/rnrfa.pdf
+    * http://stackoverflow.com/questions/23017053/how-to-convert-uk-grid-reference-to-latitude-and-longitude-in-r
+    * https://stat.ethz.ch/pipermail/r-sig-geo/2010-November/010141.html
+    * http://www.hannahfry.co.uk/blog/2012/02/01/converting-british-national-grid-to-latitude-and-longitude-ii
+    * http://cran.r-project.org/web/packages/rnrfa/rnrfa.pdf
 
 ```{r}
 #Load the required packages
@@ -44,5 +44,22 @@ data <- mutate(data, lat = coordinates$Latitude, lon = coordinates$Longitude)
 
 #Write to .csv
 write.csv(data, file="data/cleaned.csv")
+```
+
+We can now start making some maps!
+
+Let's first visualise the locations of each HEMS pickup as a quick visualisation
+
+```{r}
+#Load the required libraries
+require(ggplot2)
+require(ggmap)
+
+#Load the data
+data <- read.csv("data/cleaned.csv")
+
+#Get map from Google
+ukmap <- get_map(location = "London, UK", zoom = 8, scale = 4)
+ggmap(ukmap) + geom_point(data = data, aes(x = data$lon, y = data$lat, fill = "red", alpha = 0.8), size = 4, shape = 21) + guides(fill=FALSE, alpha=FALSE, size=FALSE)
 ```
 
