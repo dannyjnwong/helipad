@@ -24,3 +24,4 @@ Analysing helipad data at KCH using R and QGIS.
   * [ ] Descriptive statistics of injury severity (we may need ICNARC data)
   * [ ] Descriptive statistics of outcomes
   * [ ] 
+  
