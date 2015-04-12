@@ -55,6 +55,7 @@ Let's first visualise the locations of each HEMS pickup as a quick visualisation
 #Load the required libraries
 require(ggplot2)
 require(ggmap)
+require(dplyr)
 
 #Load the data
 data <- read.csv("data/cleaned.csv")
@@ -68,7 +69,7 @@ county <- count(data, County)
 
 ```
 
-We want to see whether there is a temporal relationship between the HEMS cases and 
+We want to see whether there is a temporal relationship with HEMS cases, and whether there St George's building their Helipad has had any effect on KCH's workload.
 
 ```{r}
 #Load the required libraries
@@ -85,7 +86,13 @@ data$Day <- wday(data$Date, label = TRUE)
 count(data, Day)
 
 #Let's create select the cases 6 months before St George's Helipad was constructed and 6 months after
-data_before <- data %>% filter(Date >= dmy("01/10/2013") & Date <= dmy("01/04/2014"))
-data_after <- data %>% filter(Date >= dmy("02/04/2014") & Date <= dmy("01/10/2014")) 
+data_before <- data %>% filter(Date >= dmy("01/10/2013") & Date < dmy("01/04/2014"))
+data_after <- data %>% filter(Date >= dmy("01/04/2014") & Date < dmy("01/10/2014")) 
+
+count(data_before, County)
+count(data_after, County)
+
+#Append these onto the counts overall by County
+
 ```
 
