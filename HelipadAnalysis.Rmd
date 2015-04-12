@@ -75,13 +75,17 @@ We want to see whether there is a temporal relationship between the HEMS cases a
 require(lubridate)
 require(dplyr)
 
-#We need to format the date fields in a way that R can process it
+#We use the Lubridate package to manipulate the dates and time strings into POSIXct format so we can perform stats on them
 timestamp <- paste(data$Date, " ", data$Time)
 
 data$Date <- dmy(data$Date)
+data$Day <- wday(data$Date, label = TRUE)
 
 #Let's see if there is a difference between the cases depending of which day of the week they arrive
 count(data, Day)
 
+#Let's create select the cases 6 months before St George's Helipad was constructed and 6 months after
+data_before <- data %>% filter(Date >= dmy("01/10/2013") & Date <= dmy("01/04/2014"))
+data_after <- data %>% filter(Date >= dmy("02/04/2014") & Date <= dmy("01/10/2014")) 
 ```
 
