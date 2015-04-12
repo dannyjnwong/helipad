@@ -7,7 +7,7 @@ output: html_document
 
 We have some data from the KSS HEMS patients conveyed to KCH.
 
-```{r}
+```{r, message=FALSE}
 #Read the data into a dataframe, specify the NA strings to incorporate the missing values
 data <- read.csv("data/HEMSdata.csv", na.strings=c("NA","n/a", ""))
 
@@ -29,7 +29,7 @@ Sources:
     * http://www.hannahfry.co.uk/blog/2012/02/01/converting-british-national-grid-to-latitude-and-longitude-ii
     * http://cran.r-project.org/web/packages/rnrfa/rnrfa.pdf
 
-```{r}
+```{r, message=FALSE}
 #Load the required packages
 require(rnrfa)
 require(dplyr)
@@ -51,7 +51,7 @@ We can now start making some maps!
 
 Let's first visualise the locations of each HEMS pickup as a quick visualisation
 
-```{r}
+```{r, message=FALSE}
 #Load the required libraries
 require(ggplot2)
 require(ggmap)
@@ -71,7 +71,7 @@ county
 
 We want to see whether there is a temporal relationship with HEMS cases, and whether there St George's building their Helipad has had any effect on KCH's workload.
 
-```{r}
+```{r, message=FALSE}
 #Load the required libraries
 require(lubridate)
 require(dplyr)
