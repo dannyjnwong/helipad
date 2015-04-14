@@ -57,9 +57,6 @@ require(ggplot2)
 require(ggmap)
 require(dplyr)
 
-#Load the data
-data <- read.csv("data/cleaned.csv")
-
 #Get map from Google
 ukmap <- get_map(location = "London, UK", zoom = 8, scale = 4)
 ggmap(ukmap) + geom_point(data = data, aes(x = data$lon, y = data$lat, fill = "red", alpha = 0.8), size = 4, shape = 21) + guides(fill=FALSE, alpha=FALSE, size=FALSE)
@@ -67,6 +64,11 @@ ggmap(ukmap) + geom_point(data = data, aes(x = data$lon, y = data$lat, fill = "r
 #We can separate the cases by the county where they come from, let's see the counties where they come from
 county <- count(data, County)
 county
+
+#Let's measure the distances between all the HEMS pickup sites and KCH
+#We need the coordinates for KCH
+KCH <- geocode("King's College Hospital, Denmark Hill, London")
+
 ```
 
 We want to see whether there is a temporal relationship with HEMS cases, and whether there St George's building their Helipad has had any effect on KCH's workload.
@@ -85,14 +87,37 @@ data$Day <- wday(data$Date, label = TRUE)
 #Let's see if there is a difference between the cases depending of which day of the week they arrive
 count(data, Day)
 
-#Let's create select the cases 6 months before St George's Helipad was constructed and 6 months after
+#Let's select the cases 6 months before St George's Helipad was constructed and 6 months after
 data_before <- data %>% filter(Date >= dmy("01/10/2013") & Date < dmy("01/04/2014"))
 data_after <- data %>% filter(Date >= dmy("01/04/2014") & Date < dmy("01/10/2014")) 
 
 count(data_before, County)
 count(data_after, County)
 
-#Append these onto the counts overall by County
+#Let's draw a time series of the cases, by monthly frequency
+case_count <- count(data, Date)
+case_count$Month <- as.Date(cut(case_count$Date, breaks = "month"))
+monthly_count <- count(case_count, Month)
 
+#Load ggplot2 to graph
+require(ggplot2)
+
+#Plot
+ggplot(monthly_count, aes(Month, n)) + 
+    geom_line() + 
+    xlab("") + 
+    ylab("Cases") + 
+    ggtitle("Monthly Frequency of KSS HEMS Cases brought to KCH")
+
+#Let's now draw a time series of the cases, by weekly frequency this time
+case_count$Week <- as.Date(cut(case_count$Date, breaks = "week"))
+weekly_count <- count(case_count, Week)
+
+#Plot
+ggplot(weekly_count, aes(Week, n)) + 
+    geom_line() + 
+    xlab("") + 
+    ylab("Cases") +
+    ggtitle("Weekly Frequency of KSS HEMS Cases brought to KCH")
 ```
 
