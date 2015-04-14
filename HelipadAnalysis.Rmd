@@ -81,6 +81,12 @@ coordinates$distance <- distVincentyEllipsoid(p1 = coordinates, p2 = KCH) #This 
 data <- mutate(data, distance = coordinates$distance/1000)
 
 summary(data$distance)
+
+#Plot a histogram of the distances
+hist(data$distance, breaks = 25, prob=TRUE, col="grey", xlab = "Distance of transfers (km)", ylab = "Relative Frequency", main = "Histogram of Transfer Distances with Kernel Density Curve")
+
+#Overlay the kernel density plot of the distances
+lines(density(data$distance))
 ```
 
 We want to see whether there is a temporal relationship with HEMS cases, and whether there St George's building their Helipad has had any effect on KCH's workload.
