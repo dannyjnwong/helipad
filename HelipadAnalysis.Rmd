@@ -69,6 +69,18 @@ county
 #We need the coordinates for KCH
 KCH <- geocode("King's College Hospital, Denmark Hill, London")
 
+#Let's load the required library to calculate distances
+require(geosphere)
+
+#We apply the VincentyEllipsoid method of calculating straight-line distance, and 
+coordinates <- data.frame("lon" = coordinates$Longitude, "lat" = coordinates$Latitude)
+KCH <- data.frame("lon" = KCH$lon, "lat" = KCH$lat) 
+coordinates$distance <- distVincentyEllipsoid(p1 = coordinates, p2 = KCH) #This calculates distances in meters
+
+#Lets add this distance to the master data frame, but convert it to kilometers first
+data <- mutate(data, distance = coordinates$distance/1000)
+
+summary(data$distance)
 ```
 
 We want to see whether there is a temporal relationship with HEMS cases, and whether there St George's building their Helipad has had any effect on KCH's workload.
