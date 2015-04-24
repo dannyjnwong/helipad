@@ -89,6 +89,17 @@ hist(data$distance, breaks = 25, prob=TRUE, col="grey", xlab = "Distance of tran
 lines(density(data$distance))
 ```
 
+We will create a new field for drawing lines between the Head and Tail sites on QGIS in a Well-Known-Text (WKT) LINESTRING format
+
+``` {r}
+#Text formatting for WKT LINESTRING
+data$wkt <- paste0("LINESTRING(", data$lon, " ", data$lat, ",", KCH$lon, " ", KCH$lat, ")")
+
+#Save the dataframe as a .csv
+write.csv(data, file = "data/cleaned.csv")
+write.csv(KCH, "data/KCH.csv")
+```
+
 We want to see whether there is a temporal relationship with HEMS cases, and whether there St George's building their Helipad has had any effect on KCH's workload.
 
 ```{r, message=FALSE}
