@@ -3,9 +3,9 @@ Analysing helipad data at KCH using R and QGIS.
 
 ##Data Analysis Plan and To Dos:
 
-1. [ ] Clean the data 
-  * [ ] Remove empty rows with empty Grid References
-  * [ ] Format dates and time into R-compatible date-time object
+1. [x] Clean the data 
+  * [x] Remove empty rows with empty Grid References
+  * [X] Format dates and time into R-compatible date-time object
   * [ ] 
   
 2. [ ] Map the data

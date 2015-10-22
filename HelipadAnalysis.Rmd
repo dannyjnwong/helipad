@@ -2,7 +2,7 @@
 title: "Analysing Helipad Data"
 author: "Danny Wong"
 date: "Sunday, April 05, 2015"
-output: html_document
+output: word_document
 ---
 
 We have some data from the KSS HEMS patients conveyed to KCH.
@@ -65,6 +65,9 @@ ggmap(ukmap) + geom_point(data = data, aes(x = data$lon, y = data$lat, fill = "r
 county <- count(data, County)
 county
 
+#Let's write this into a .csv file for QGIS to use
+write.csv(county, "data/county.csv")
+
 #Let's measure the distances between all the HEMS pickup sites and KCH
 #We need the coordinates for KCH
 KCH <- geocode("King's College Hospital, Denmark Hill, London")
@@ -99,6 +102,12 @@ data$wkt <- paste0("LINESTRING(", data$lon, " ", data$lat, ",", KCH$lon, " ", KC
 write.csv(data, file = "data/cleaned.csv")
 write.csv(KCH, "data/KCH.csv")
 ```
+
+We can now see the QGIS mapping results below:
+
+![Fig. 1. Map of Distribution by County](maps/counties.png)
+
+![Fig. 2. Map of KSS HEMS Routes to KCH](maps/lines.png)
 
 We want to see whether there is a temporal relationship with HEMS cases, and whether there St George's building their Helipad has had any effect on KCH's workload.
 
